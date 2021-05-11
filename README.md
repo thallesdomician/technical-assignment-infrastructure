@@ -109,3 +109,5 @@ Other than checking if the application (or part of it) is running, we will also:
 Good luck! :rocket:
 
 # Technical assignment - documentation
+
+TODO: add any general/docker documentation here
