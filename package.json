@@ -10,8 +10,6 @@
   "author": "CIAL Dun & Bradstreet",
   "license": "UNLICENSED",
   "private": true,
-  "dependencies": {
-    "@types/node": "^15.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }
