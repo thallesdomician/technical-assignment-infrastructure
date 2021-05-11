@@ -12,7 +12,7 @@
 
 /**
  * Dummy auth middleware - checks if authorization header is set to any value
- * 
+ *
  * @param {IncomingMessage} req
  * @param {ServerResponse} res
  * @param {Function} next
