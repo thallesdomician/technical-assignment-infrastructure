@@ -87,7 +87,8 @@ Provide us with the docker build/deployment instructions in the [section below](
 
 ## Limitations and bonuses due to time constraints
 
-- do not overcomplicate the solution. We are not expecting you to develop a next release of Express.js framework!
+- *do not overcomplicate* the solution. We are not expecting you to develop a next release of Express.js framework!
+- only `application/json` will be used with this framework. There is no need to implement any additional parsers.
 - there is no need for query string processing *
 - hierarchical middleware registration is not necessary (ie. registering additional middleware for specific route prefix) *
 - we will not test for resilience to duplicate routes or prefixes *
