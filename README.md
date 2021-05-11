@@ -83,7 +83,7 @@ This class should implement the following functionalities:
 ### Dockerfile (bonus)
 
 Once your application is up and running, create a dockerfile and deploy this project as a container on your local machine.
-Provide us with the docker build/deployment instructions in the [section below](#technical-assignment-documentation).
+Provide us with the docker build/deployment instructions in the [section below](#technical-assignment---documentation).
 
 ## Limitations and bonuses due to time constraints
 
