@@ -63,7 +63,7 @@ This class should implement the following functionalities:
       * `req.body` - for all HTTP methods which support incoming data via request body
       * `res.body` - should be used to send the final response data after middleware execution
   5. basic error-handling wrapper for registered middleware
-    - for any errors thrown from the middleware, statusCode should be set to 500 and errors should be logged to stderr.
+    - for any errors thrown from the middleware, statusCode should be set to `error.statusCode` (if such field exists in the error object) and errors should be logged to stderr.
 
 ### Router
 

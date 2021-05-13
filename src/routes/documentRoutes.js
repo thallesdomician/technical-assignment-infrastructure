@@ -6,7 +6,9 @@
  * TODO comments specify what needs to be implemented.
  */
 
+const assert = require('assert');
 const Router = require('../lib/router');
+const { NotFoundError, ConflictError, InternalServerError } = require('../utils/error');
 
 // TODO: implement the routing middleware constructor [6]
 const routes = new Router();
@@ -27,10 +29,7 @@ routes.get('/throw-error', (req, res) => {
 routes.get('/:documentId', (req, res) => {
   const { documentId } = req.params;
   const document = mockData.find(((doc) => doc.id === Number.parseInt(documentId, 10)));
-  if (!document) {
-    res.statusCode = 404;
-    return;
-  }
+  assert(document, new NotFoundError(`document with id ${documentId} does not exist`));
 
   res.body = document;
 });
@@ -38,19 +37,10 @@ routes.get('/:documentId', (req, res) => {
 // TODO: implement a 'post' method which registers the handler for the given POST path. [7]
 // TODO: router should take care of handling the correct path, but WebApp should already provide the `req.body` data. [4]
 routes.post('/', (req, res) => {
-  if (mockData.length > 10) {
-    res.statusCode = 500;
-    res.body = 'Datastore is full';
-    return;
-  }
+  assert(mockData.length <= 10, new InternalServerError('datastore is full'));
 
   const { body: document } = req;
-
-  if (mockData.some((existing) => existing.id === document.id)) {
-    res.statusCode = 409;
-    res.body = 'Document already exists.';
-    return;
-  }
+  assert(!mockData.some((existing) => existing.id === document.id), new ConflictError(`document with id ${document.id} already exists`));
 
   mockData.push(document);
 });

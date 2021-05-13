@@ -10,6 +10,9 @@
  * @typedef {import('http').ServerResponse} ServerResponse
  */
 
+const assert = require('assert');
+const { AuthorizationError } = require('../utils/error');
+
 /**
  * Dummy auth middleware - checks if authorization header is set to any value
  *
@@ -18,12 +21,7 @@
  * @param {Function} next
  */
 module.exports = function authMiddleware(req, res, next) {
-  const authorization = req.headers?.authorization;
-  if (!authorization) {
-    res.body = 'unauthorized';
-    return; // <-- blocks the execution of any subsequent middleware in stack (no call of `next()`). Unauthorized calls shouldn't even reach the route handler.
-  }
-
+  assert(req.headers?.authorization, new AuthorizationError()); // <-- blocks the execution of any subsequent middleware in stack (no call of `next()`). Unauthorized calls shouldn't even reach the route handler.
   next(); // <-- calls the next middleware. In this case, it will be the routing middleware.
   // <-- any additional code under the `next()` function, if present, should be executed *after* the routing middleware execution is done.
 };
