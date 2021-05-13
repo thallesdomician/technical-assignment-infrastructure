@@ -1,6 +1,6 @@
 class ApiError extends Error {
   constructor(message, statusCode, statusMessage = null) {
-    super(message)
+    super(message);
     this.statusCode = statusCode;
     this.statusMessage = statusMessage;
   }
@@ -36,4 +36,4 @@ module.exports = {
   NotFoundError,
   ConflictError,
   InternalServerError,
-}
+};
