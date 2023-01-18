@@ -12,16 +12,16 @@ const { NotFoundError, ConflictError, InternalServerError } = require('../utils/
 
 // TODO: implement the routing middleware constructor [6]
 const routes = new Router();
-const mockData = [];
+let mockData = [];
 
 // TODO: implement a 'get' method which registers the handler for the given GET path [7]
 routes.get('/', (req, res) => {
-// TODO: use the `res.body` to set the final response data in WebApp [4]
+  // TODO: use the `res.body` to set the final response data in WebApp [4]
   res.body = mockData;
 });
 
 routes.get('/throw-error', (req, res) => {
-// TODO: implement a global error handler which wraps around middleware. All errors caught by it should be logged and status code 500 should be set. [5]
+  // TODO: implement a global error handler which wraps around middleware. All errors caught by it should be logged and status code 500 should be set. [5]
   throw new Error('This is an intentional error which should be logged to stderr.');
 });
 
@@ -43,6 +43,17 @@ routes.post('/', (req, res) => {
   assert(!mockData.some((existing) => existing.id === document.id), new ConflictError(`document with id ${document.id} already exists`));
 
   mockData.push(document);
+});
+
+// TODO: implement a 'delete' method which registers the handler for the given GET path [7]
+routes.delete('/:documentId', (req, res) => {
+  const { documentId } = req.params;
+  const document = mockData.find(((doc) => doc.id === Number.parseInt(documentId, 10)));
+  assert(document, new NotFoundError(`document with id ${documentId} does not exist`));
+
+  mockData = mockData.filter((entry) => entry.id !== Number.parseInt(documentId, 10));
+
+  res.statusCode = 204;
 });
 
 // TODO: ideally, all of the HTTP methods should be supported. [7]
