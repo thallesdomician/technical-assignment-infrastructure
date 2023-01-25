@@ -6,7 +6,6 @@
  * TODO comments specify what needs to be implemented.
  */
 
-const assert = require('assert');
 const Router = require('../lib/router');
 const { NotFoundError, ConflictError, InternalServerError } = require('../utils/error');
 
@@ -28,8 +27,8 @@ routes.get('/throw-error', (req, res) => {
 // TODO: implement a 'get' method which registers the handler for the given GET path and extracts route parameters into `req.params` [7, 8]
 routes.get('/:documentId', (req, res) => {
   const { documentId } = req.params;
-  const document = mockData.find(((doc) => doc.id === Number.parseInt(documentId, 10)));
-  assert(document, new NotFoundError(`document with id ${documentId} does not exist`));
+  const document = mockData.find(((doc) => doc.id === documentId));
+  if (!document) throw new NotFoundError(`document with id ${documentId} does not exist`);
 
   res.body = document;
 });
@@ -37,10 +36,10 @@ routes.get('/:documentId', (req, res) => {
 // TODO: implement a 'post' method which registers the handler for the given POST path. [7]
 // TODO: router should take care of handling the correct path, but WebApp should already provide the `req.body` data. [4]
 routes.post('/', (req, res) => {
-  assert(mockData.length <= 10, new InternalServerError('datastore is full'));
+  if (mockData.length > 5000) throw new InternalServerError('datastore is full');
 
   const { body: document } = req;
-  assert(!mockData.some((existing) => existing.id === document.id), new ConflictError(`document with id ${document.id} already exists`));
+  if (mockData.some((existing) => existing.id === document.id)) throw new ConflictError(`document with id ${document.id} already exists`);
 
   mockData.push(document);
 });
@@ -48,10 +47,10 @@ routes.post('/', (req, res) => {
 // TODO: implement a 'delete' method which registers the handler for the given GET path [7]
 routes.delete('/:documentId', (req, res) => {
   const { documentId } = req.params;
-  const document = mockData.find(((doc) => doc.id === Number.parseInt(documentId, 10)));
-  assert(document, new NotFoundError(`document with id ${documentId} does not exist`));
+  const document = mockData.find(((doc) => doc.id === documentId));
+  if (!document) throw new NotFoundError(`document with id ${documentId} does not exist`);
 
-  mockData = mockData.filter((entry) => entry.id !== Number.parseInt(documentId, 10));
+  mockData = mockData.filter((entry) => entry.id !== documentId);
 
   res.statusCode = 204;
 });

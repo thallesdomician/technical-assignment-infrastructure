@@ -8,7 +8,7 @@ class ApiError extends Error {
 
 class AuthorizationError extends ApiError {
   constructor(message = null) {
-    super(message ?? 'unauthorized access to resource', 403, 'unauthorized');
+    super(message ?? 'unauthorized access to resource', 401, 'unauthorized');
   }
 }
 
