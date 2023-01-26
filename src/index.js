@@ -18,9 +18,14 @@ app.use(auth);
 // TODO: router should implement the 'routes' method which builds the routing middleware [9]
 app.use(documentRoutes.routes({ prefix: '/documents' }));
 
-// TODO: implement 'start' method which returns node's http server instance [3]
-const server = app.start(3000);
+if (process.env.NODE_ENV === 'test') {
+  module.exports = app;
+}
+else {
+  // TODO: implement 'start' method which returns node's http server instance [3]
+  const server = app.start(3000);
 
-server.on('SIGTERM', () => {
-  server.close(() => process.exit(0));
-});
+  server.on('SIGTERM', () => {
+    server.close(() => process.exit(0));
+  });
+}
