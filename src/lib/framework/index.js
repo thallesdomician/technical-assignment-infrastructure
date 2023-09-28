@@ -1,5 +1,8 @@
-/**
- * Web framework implementation - write your code here
- *
- * This module should export your implementation of WebApp class.
- */
+'use strict';
+
+class WebApp {
+  constructor() {
+  }
+}
+
+module.exports = WebApp;
