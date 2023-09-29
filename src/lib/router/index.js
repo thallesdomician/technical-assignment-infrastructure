@@ -34,32 +34,23 @@ class Router {
 
   routes(config = { prefix: '' }) {
     const { prefix } = config;
-
     return (req, res, next) => {
-      try {
-        
-      
-        const method = req.method;
-        const routes = this.routeList[method] || [];
+      const method = req.method;
+      const routes = this.routeList[method] || [];
 
-        for (const route of routes) {
-        
-        
-          if(prefix.length && !req.url.startsWith(prefix)) continue;
-          const url = req.url.slice(prefix.length);
-          const params = this.extractParams(url, route);
-          if (route.regex.test(url)) {
-            req.params = req.params || {};
-            Object.assign(req.params, params);
-
-            return route.handler(req, res, next);
-          }
+      for (const route of routes) {
+        if(prefix.length && !req.url.startsWith(prefix)) continue;
+        const url = req.url.slice(prefix.length);
+        const params = this.extractParams(url, route);
+        if (route.regex.test(url)) {
+          req.params = req.params || {};
+          Object.assign(req.params, params);
+          return route.handler(req, res, next);
         }
-
-        throw new NotFoundError('Route not found');
-      } catch (error) {
-        next(error);
       }
+
+      throw new NotFoundError('Route not found');
+
     };
   }
 
