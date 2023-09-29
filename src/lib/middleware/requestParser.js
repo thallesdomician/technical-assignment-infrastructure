@@ -2,7 +2,7 @@ const { InternalServerError } = require('../../utils/error');
 
 
 function parseRequestJsonMiddleware(req, res, next) {
-  if (req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+  if (req.headers['content-type'] === 'application/json') {
     let data = '';
     
     req.on('data', (chunk) => {
@@ -11,15 +11,16 @@ function parseRequestJsonMiddleware(req, res, next) {
 
     req.on('end', () => {
       try {
-        req.body = JSON.parse(data);
-        next();
+        if(data) {
+          req.body = JSON.parse(data);
+        }
       } catch (error) {
         throw new InternalServerError();
       }
     });
-  } else {
-    next();
   }
+  next();
+  
 }
 
 module.exports = parseRequestJsonMiddleware;
