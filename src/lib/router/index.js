@@ -45,7 +45,9 @@ class Router {
         if (route.regex.test(url)) {
           req.params = req.params || {};
           Object.assign(req.params, params);
-          return route.handler(req, res, next);
+          route.handler(req, res, next);
+          next();
+          return; 
         }
       }
 

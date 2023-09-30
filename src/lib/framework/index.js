@@ -1,20 +1,9 @@
 'use strict';
 
-const middlewareErrorHandler = require('../middleware/errorHandler');
-const parseRequestJsonMiddleware = require('../middleware/requestParser');
 
 class WebApp {
-  constructor(handleError=true, parseJsonRequest=true) {
+  constructor() {
     this.middlewares = [];
-
-    if(parseJsonRequest){
-      this.middlewares.push(parseRequestJsonMiddleware);
-    }
-
-    if(handleError) {
-      this.middlewares.push(middlewareErrorHandler);
-    }
-
   }
 
   use(middleware) {
@@ -41,15 +30,11 @@ class WebApp {
     let index = 0;
 
     const next = () => {
-      const middleware = this.middlewares[index++];
-     
-      middleware(req, res, next);
-      if(res.finished) return; 
-      if (res.body) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        const content = JSON.stringify(res.body);
-        res.end(content);
+      if (index < this.middlewares.length) {
+        const middleware = this.middlewares[index++];
+        middleware(req, res, next);
       } else {
+        if(res.finished) return; 
         res.end();
       }
 
