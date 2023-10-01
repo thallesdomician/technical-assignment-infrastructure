@@ -1,17 +1,15 @@
 const { ApiError } = require('../../utils/error');
 
-async function middlewareErrorHandler( req, res, next) {
-  try {
-    await next();
-  } catch (err) {
-    if (err instanceof ApiError) {
-      res.statusCode = err.statusCode;
-      res.end(err.statusMessage || err.message);
-    } else {
-      res.statusCode = 500;
-      res.end('Internal Server Error');
-    }
+async function middlewareErrorHandler( err, req, res, next) {
+ 
+  if (err instanceof ApiError) {
+    res.statusCode = err.statusCode;
+    res.end(err.message || err.statusMessage);
+  } else {
+    res.statusCode = 500;
+    res.end(err.message || 'Internal Server Error');
   }
+  
 }
 
 module.exports = middlewareErrorHandler;

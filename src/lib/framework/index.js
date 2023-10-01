@@ -1,5 +1,6 @@
 'use strict';
-
+const http = require('http');
+const middlewareErrorHandler = require('../middleware/errorHandler');
 
 class WebApp {
   constructor() {
@@ -8,11 +9,12 @@ class WebApp {
 
   use(middleware) {
     this.middlewares.push(middleware);
+    return this;
   }
 
   start(port, callback) {
-    const http = require('http');
     const server = http.createServer((req, res) => {
+      this.use(middlewareErrorHandler);
       this.handleMiddleware(req, res);
     });
 
@@ -29,15 +31,37 @@ class WebApp {
   handleMiddleware(req, res) {
     let index = 0;
 
-    const next = () => {
+    const next = (error) => {
       if (index < this.middlewares.length) {
         const middleware = this.middlewares[index++];
-        middleware(req, res, next);
+        try {
+          // Chama o middleware e passa o erro como argumento, se existir
+          if (error) {
+            if (middleware.length === 4) {
+              // Se o middleware tem 4 parâmetros, é um middleware de erro
+              middleware(error, req, res, next);
+            } else {
+              // Se não, é um middleware comum, então pule e chame o próximo
+              next(error);
+            }
+          } else {
+            // Chama o middleware normalmente
+
+            if (middleware.length !== 4) {
+              middleware(req, res, next);
+            }
+            else{
+              next();
+            }
+          }
+        } catch (err) {
+          // Captura erros lançados pelo middleware
+          next(err);
+        }
       } else {
-        if(res.finished) return; 
+        if (res.finished) return;
         res.end();
       }
-
     };
 
     next();
