@@ -8,6 +8,10 @@ class WebApp {
   }
 
   use(middleware) {
+    if (middleware.length < 3 || middleware.length > 4)
+      throw new Error(
+        'Middleware must accept three parameters (req, res, next)'
+      );
     this.middlewares.push(middleware);
     return this;
   }
@@ -35,27 +39,21 @@ class WebApp {
       if (index < this.middlewares.length) {
         const middleware = this.middlewares[index++];
         try {
-          // Chama o middleware e passa o erro como argumento, se existir
           if (error) {
             if (middleware.length === 4) {
-              // Se o middleware tem 4 parâmetros, é um middleware de erro
               middleware(error, req, res, next);
             } else {
-              // Se não, é um middleware comum, então pule e chame o próximo
               next(error);
             }
           } else {
-            // Chama o middleware normalmente
 
             if (middleware.length !== 4) {
               middleware(req, res, next);
-            }
-            else{
+            } else {
               next();
             }
           }
         } catch (err) {
-          // Captura erros lançados pelo middleware
           next(err);
         }
       } else {
