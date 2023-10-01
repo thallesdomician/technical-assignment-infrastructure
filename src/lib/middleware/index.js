@@ -1,9 +1,9 @@
 const parseRequestJsonMiddleware = require('./requestParser');
 const parseResponseJsonMiddleware = require('./responseParser');
-const errorHandler = require('./errorHandler');
+const errorHandlerMiddleware = require('./errorHandler');
 
 module.exports = {
   parseRequestJsonMiddleware,
-  errorHandler,
+  errorHandlerMiddleware,
   parseResponseJsonMiddleware
 };
