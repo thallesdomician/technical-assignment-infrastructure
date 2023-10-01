@@ -1,7 +1,6 @@
 'use strict';
 
 const { pathToRegexp } = require('path-to-regexp');
-const { NotFoundError } = require('../../utils/error');
 
 class Router {
   constructor() {
@@ -35,23 +34,27 @@ class Router {
   routes(config = { prefix: '' }) {
     const { prefix } = config;
     return (req, res, next) => {
-      const method = req.method;
-      const routes = this.routeList[method] || [];
+      try {
+  
 
-      for (const route of routes) {
-        if(prefix.length && !req.url.startsWith(prefix)) continue;
-        const url = req.url.slice(prefix.length);
-        const params = this.extractParams(url, route);
-        if (route.regex.test(url)) {
-          req.params = req.params || {};
-          Object.assign(req.params, params);
-          route.handler(req, res, next);
-          next();
-          return; 
+        const method = req.method;
+        const routes = this.routeList[method] || [];
+
+        for (const route of routes) {
+          if(prefix.length && !req.url.startsWith(prefix)) continue;
+          const url = req.url.slice(prefix.length);
+          const params = this.extractParams(url, route);
+          if (route.regex.test(url)) {
+            req.params = req.params || {};
+            Object.assign(req.params, params);
+            route.handler(req, res);
+            next();
+          }
         }
-      }
 
-      throw new NotFoundError('Route not found');
+      } catch (error) {
+        next(error);
+      }
 
     };
   }
