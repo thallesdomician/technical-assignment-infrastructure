@@ -1,6 +1,6 @@
 'use strict';
 const http = require('http');
-const middlewareErrorHandler = require('../middleware/errorHandler');
+const {errorHandlerMiddleware} = require('../middleware');
 
 class WebApp {
   constructor() {
@@ -18,7 +18,7 @@ class WebApp {
 
   start(port, callback) {
     const server = http.createServer((req, res) => {
-      this.use(middlewareErrorHandler);
+      this.use(errorHandlerMiddleware);
       this.handleMiddleware(req, res);
     });
 

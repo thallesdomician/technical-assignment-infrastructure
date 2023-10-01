@@ -1,6 +1,6 @@
 const { ApiError } = require('../../utils/error');
 
-async function middlewareErrorHandler( err, req, res, next) {
+async function errorHandlerMiddleware( err, req, res, next) {
  
   if (err instanceof ApiError) {
     res.statusCode = err.statusCode;
@@ -12,4 +12,4 @@ async function middlewareErrorHandler( err, req, res, next) {
   
 }
 
-module.exports = middlewareErrorHandler;
+module.exports = errorHandlerMiddleware;
