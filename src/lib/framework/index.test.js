@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-const { ApiError, InternalServerError, AuthorizationError } = require('../../utils/error');
-const middlewareErrorHandler = require('../middleware/errorHandler');
+
+const { AuthorizationError, ApiError } = require('../../utils/error');
+const { errorHandlerMiddleware } = require('../middleware');
 const WebApp = require('./');
 
 describe('WebApp', () => { 
@@ -11,7 +12,7 @@ describe('WebApp', () => {
     webApp = new WebApp();
     req = {};
     res = {
-      finished: false,
+      writableEnded: false,
       end: jest.fn(),
     };
     next = jest.fn();
@@ -35,7 +36,7 @@ describe('WebApp', () => {
     webApp.handleMiddleware(req, res);
 
     expect(middleware).toHaveBeenCalled();
-    expect(res.finished).toBe(false);
+    expect(res.writableEnded).toBe(false);
   });
 
   test('should throw an error when using middleware with incorrect parameters', () => {
@@ -110,7 +111,7 @@ describe('WebApp', () => {
 
   test('should call next() with no middlewares', () => {
     webApp.handleMiddleware(req, res);
-    expect(res.finished).toBe(false);
+    expect(res.writableEnded).toBe(false);
   });
 
   
@@ -128,7 +129,7 @@ describe('WebApp', () => {
     }
   
     expect(middleware).toHaveBeenCalled();
-    expect(res.finished).toBe(false);
+    expect(res.writableEnded).toBe(false);
   });
 
   test('should call middleware with error and check condition', () => {
@@ -136,7 +137,7 @@ describe('WebApp', () => {
       throw new ApiError('Test error', 400);
     });
 
-    webApp.use(middlewareErrorHandler);
+    webApp.use(errorHandlerMiddleware);
     webApp.use(middlewareWithError);
 
     try {
@@ -153,13 +154,13 @@ describe('WebApp', () => {
       }
     }
 
-    expect(res.finished).toBe(false);
+    expect(res.writableEnded).toBe(false);
   });
 
-  test('should end response if res.finished is true', () => {
-    res.finished = true;
+  test('should end response if res.writableEnded is true', () => {
+    res.writableEnded = true;
     webApp.handleMiddleware(req, res);
-    expect(res.finished).toBe(true);
+    expect(res.writableEnded).toBe(true);
   });
 
 });

@@ -1,4 +1,5 @@
-const {parseResponseJsonMiddleware} = require('./');
+const parseResponseJsonMiddleware = require('.');
+
 
 describe('parseResponseJsonMiddleware', () => {
   let req, res, next;

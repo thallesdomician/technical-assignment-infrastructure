@@ -117,8 +117,6 @@ Good luck! :rocket:
 
 # Technical assignment - documentation
 
-TODO: add any general/docker documentation here
-
 ## Usage
 
 ### Import Dependencies
@@ -157,7 +155,7 @@ app.use(parseResponseJsonMiddleware);
 
 ### Define and Register Routes
 
-Define and register your routes using the `Router` class (`documentRoutes` in this example):
+Define and register your routes using the `Router` class:
 
 ```javascript
 const Router = require('./lib/router');
@@ -194,10 +192,20 @@ server.on('SIGTERM', () => {
 ```
 
 With these steps, you can create a web application using the `WebApp` framework, register middlewares, define routes, and start the server.
-These instructions should help you understand how to use the `WebApp` framework and middlewares in your project, including the usage of `parseRequestJsonMiddleware` and `parseResponseJsonMiddleware`. Customize the routes and middleware to build your web application as required.
-
 
 ## Scripts
+
+# Project Name
+
+This project is built with Node.js 18 LTS. Please make sure you have Node.js 18 LTS installed before running the application.
+
+## Getting Started
+
+Before running the project, ensure that you have installed all the dependencies by running:
+
+```bash
+npm install
+```
 
 The following scripts are available for managing and running the project:
 
@@ -319,7 +327,7 @@ Integrate Husky into your project to enforce code quality and testing standards.
 
 ## Reflecting on the Experience
 
-Working on this project as a test for a job opportunity has been an exciting and educational experience. It encouraged me to delve into concepts that are sometimes overlooked in the day-to-day work of developers who rely on pre-built tools without fully understanding their inner workings.
+Working on this project has been an exciting and educational experience. It encouraged me to delve into concepts that are sometimes overlooked in the day-to-day work of developers who rely on pre-built tools without fully understanding their inner workings.
 
 Exploring the functionality of other libraries, such as Express, and building a lightweight web framework from scratch has been both challenging and rewarding. It has broadened my understanding of web development and architecture.
 

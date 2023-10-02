@@ -1,5 +1,4 @@
-const { InternalServerError } = require('../../utils/error');
-
+const { InternalServerError } = require('../../../utils/error');
 
 /**
  * Middleware for parsing JSON data from incoming requests with 'application/json' content type.

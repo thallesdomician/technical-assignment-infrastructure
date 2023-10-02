@@ -1,5 +1,6 @@
-const {parseRequestJsonMiddleware} = require('./');
-const { InternalServerError } = require('../../utils/error');
+const parseRequestJsonMiddleware = require('.');
+const { InternalServerError } = require('../../../utils/error');
+
 
 describe('parseRequestJsonMiddleware', () => {
   test('should parse JSON request body when content-type is application/json', (done) => {

@@ -1,4 +1,5 @@
-const { ApiError } = require('../../utils/error');
+const { ApiError } = require('../../../utils/error');
+
 
 /**
  * Middleware for handling and responding to errors.
@@ -13,11 +14,11 @@ async function errorHandlerMiddleware( err, req, res, next) {
   if (err instanceof ApiError) {
     // If the error is an instance of ApiError, set the HTTP status code and respond with the error message or status message.
     res.statusCode = err.statusCode;
-    res.end(err.message || err.statusMessage);
+    res.write(err.message || err.statusMessage);
   } else {
     // If the error is not an instance of ApiError, set the HTTP status code to 500 (Internal Server Error) and respond with the error message or a generic error message.
     res.statusCode = 500;
-    res.end(err.message || 'Internal Server Error');
+    res.write(err.message || 'Internal Server Error');
   }
   
 }

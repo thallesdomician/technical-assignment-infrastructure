@@ -1,5 +1,5 @@
-const middlewareErrorHandler = require('./errorHandler');
-const { ApiError } = require('../../utils/error');
+const middlewareErrorHandler = require('.');
+const { ApiError } = require('../../../utils/error');
 
 describe('middlewareErrorHandler', () => {
   test('should handle ApiError and set status code and message', () => {
@@ -8,13 +8,14 @@ describe('middlewareErrorHandler', () => {
     const res = {
       statusCode: 200, // Initial status code
       end: jest.fn(), // Mock the res.end method
+      write: jest.fn()
     };
     const next = jest.fn();
 
     middlewareErrorHandler(err, req, res, next);
 
     expect(res.statusCode).toBe(401); // Status code should be set to 401
-    expect(res.end).toHaveBeenCalledWith('Custom ApiError Message'); // Message should be sent to res.end
+    expect(res.write).toHaveBeenCalledWith('Custom ApiError Message'); // Message should be sent to res.end
   });
 
   test('should handle non-ApiError and set status code to 500', () => {
@@ -23,13 +24,14 @@ describe('middlewareErrorHandler', () => {
     const res = {
       statusCode: 200, // Initial status code
       end: jest.fn(), // Mock the res.end method
+      write:  jest.fn()
     };
     const next = jest.fn();
 
     middlewareErrorHandler(err, req, res, next);
 
     expect(res.statusCode).toBe(500); // Status code should be set to 500
-    expect(res.end).toHaveBeenCalledWith('Generic Error'); // Message should be sent to res.end
+    expect(res.write).toHaveBeenCalledWith('Generic Error'); // Message should be sent to res.end
   });
 
   // Add more test cases as needed for other error types
