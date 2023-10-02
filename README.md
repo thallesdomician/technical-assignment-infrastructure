@@ -230,3 +230,64 @@ The following scripts are available for managing and running the project:
   ```bash
   npm run test:coverage
   ```
+
+
+---
+
+# Running the Node.js Project in Docker
+
+This guide explains how to run the Node.js project using Docker. Docker allows you to package your application and its dependencies into a container, providing a consistent and isolated environment for your application to run.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed on your machine:
+
+- Docker: [Install Docker](https://docs.docker.com/get-docker/)
+
+## Usage
+
+Follow these steps to run the Node.js project in a Docker container:
+
+### 1. Build the Docker Image
+
+Navigate to the root directory of your project, where your `Dockerfile` is located. Then, run the following command to build the Docker image:
+
+```bash
+docker build -t my-node-app .
+```
+
+Replace `my-node-app` with a desired name for your Docker image.
+
+### 2. Run the Docker Container
+
+After the image is built, you can run a Docker container using the following command:
+
+```bash
+docker run -d -p 3000:3000 --name my-node-app-container my-node-app
+```
+
+- `-d`: Run the container in detached mode (in the background).
+- `-p 3000:3000`: Map port 3000 in the container to port 3000 on your host machine. You can adjust the port as needed.
+- `--name my-node-app-container`: Specify a name for your Docker container. Replace `my-node-app-container` with a desired name.
+
+### 3. Access the Application
+
+Your Node.js application should now be running in a Docker container. You can access it by opening a web browser and navigating to `http://localhost:3000` or the appropriate IP address and port if running on a remote machine.
+
+### 4. Stop and Remove the Container
+
+To stop and remove the Docker container when you're done, use the following commands:
+
+```bash
+docker stop my-node-app-container
+docker rm my-node-app-container
+```
+
+Replace `my-node-app-container` with the name you specified when running the container.
+
+## Additional Notes
+
+- You can customize the Docker image by modifying the `Dockerfile` in your project's root directory.
+
+- Be sure to replace `"start"` in the `CMD` instruction in your `Dockerfile` with the actual command needed to start your Node.js application.
+
