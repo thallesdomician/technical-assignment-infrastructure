@@ -82,7 +82,7 @@ class WebApp {
           next(err);
         }
       } else {
-        if (res.finished) return;
+        if (res.writableEnded) return;
         res.end();
       }
     };
