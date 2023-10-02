@@ -3,10 +3,23 @@ const http = require('http');
 const {errorHandlerMiddleware} = require('../middleware');
 
 class WebApp {
+  /**
+   * Create a new WebApp instance.
+   * @constructor
+   */
   constructor() {
+
+    /**
+     * List of middlewares to be executed in order.
+     * @type {function[]}
+     */
     this.middlewares = [];
   }
 
+  /**
+   * Add a middleware to the application.
+   * @param {function} middleware - The middleware function to add.
+   */
   use(middleware) {
     if (middleware.length < 3 || middleware.length > 4)
       throw new Error(
@@ -16,6 +29,12 @@ class WebApp {
     return this;
   }
 
+  /**
+   * Start the web application on the specified port.
+   * @param {number} port - The port to listen on.
+   * @param {function} [callback] - Optional callback to be called when the server starts.
+   * @returns {http.Server} - The HTTP server instance.
+   */
   start(port, callback) {
     const server = http.createServer((req, res) => {
       this.use(errorHandlerMiddleware);
@@ -32,9 +51,15 @@ class WebApp {
     return server;
   }
 
+  /**
+   * Handle the execution of middlewares for incoming requests.
+   * @param {http.IncomingMessage} req - The HTTP request object.
+   * @param {http.ServerResponse} res - The HTTP response object.
+   */
   handleMiddleware(req, res) {
     let index = 0;
 
+    // Function to move to the next middleware
     const next = (error) => {
       if (index < this.middlewares.length) {
         const middleware = this.middlewares[index++];
