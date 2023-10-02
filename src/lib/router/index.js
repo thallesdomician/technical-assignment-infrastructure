@@ -1,6 +1,7 @@
 'use strict';
 
 const { pathToRegexp } = require('path-to-regexp');
+const { NotFoundError } = require('../../utils/error');
 
 class Router {
   /**
@@ -96,6 +97,7 @@ class Router {
             next();
           }
         }
+        throw new NotFoundError('route not found');
 
       } catch (error) {
         next(error);

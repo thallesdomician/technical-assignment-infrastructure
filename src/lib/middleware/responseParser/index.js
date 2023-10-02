@@ -8,6 +8,10 @@
  */
 function parseResponseJsonMiddleware(req, res, next) {
   // Set the 'Content-Type' header to 'application/json'
+  if (res.writableEnded) {
+    next();
+    return;
+  } 
   res.setHeader('Content-Type', 'application/json');
 
   if (res.body !== undefined) {
