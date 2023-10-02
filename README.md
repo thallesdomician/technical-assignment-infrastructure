@@ -291,3 +291,36 @@ Replace `my-node-app-container` with the name you specified when running the con
 
 - Be sure to replace `"start"` in the `CMD` instruction in your `Dockerfile` with the actual command needed to start your Node.js application.
 
+# Final Considerations
+
+## Future Improvements
+
+While working on this project, several areas for potential improvement and enhancement became apparent:
+
+### 1. Refactor the `handleMiddleware` Function
+
+The `handleMiddleware` function could benefit from refactoring to make it more concise and easier to follow. It currently contains nested `if` and `else` statements, which can be complex to maintain and understand.
+
+### 2. Enhanced Route Parameter Handling
+
+Consider enhancing the route parameter handling system to provide more flexibility. This could include supporting various parameter types (e.g., query parameters) and allowing for custom parameter manipulation.
+
+### 3. Header Manipulation
+
+Extend the framework to support header manipulation. This feature would enable developers to interact with request and response headers easily.
+
+### 4. Implement Design Patterns
+
+Explore the possibility of implementing design patterns to improve the overall architecture and maintainability of the codebase. For instance, you could apply the middleware pattern more consistently.
+
+### 5. Adopt Husky for Enforcing Testing and Commit Standards
+
+Integrate Husky into your project to enforce code quality and testing standards. This would help ensure consistent testing coverage and commit message patterns.
+
+## Reflecting on the Experience
+
+Working on this project as a test for a job opportunity has been an exciting and educational experience. It encouraged me to delve into concepts that are sometimes overlooked in the day-to-day work of developers who rely on pre-built tools without fully understanding their inner workings.
+
+Exploring the functionality of other libraries, such as Express, and building a lightweight web framework from scratch has been both challenging and rewarding. It has broadened my understanding of web development and architecture.
+
+In conclusion, this project has not only showcased my technical abilities but has also inspired me to continue learning and exploring the intricacies of software development.
