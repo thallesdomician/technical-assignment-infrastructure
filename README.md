@@ -118,3 +118,115 @@ Good luck! :rocket:
 # Technical assignment - documentation
 
 TODO: add any general/docker documentation here
+
+## Usage
+
+### Import Dependencies
+
+In your project, import the necessary dependencies:
+
+```javascript
+const WebApp = require('./lib/framework');
+const { parseRequestJsonMiddleware, parseResponseJsonMiddleware } = require('./lib/middleware');
+const documentRoutes = require('./routes/documentRoutes');
+```
+
+### Create a WebApp Instance
+
+Create a `WebApp` instance:
+
+```javascript
+const app = new WebApp();
+```
+
+### Register Global Middleware
+
+Use the `app.use()` method to register global application middleware:
+
+```javascript
+// Register authentication middleware (auth)
+app.use(auth);
+
+// Register parseRequestJsonMiddleware to parse incoming JSON data
+app.use(parseRequestJsonMiddleware);
+
+// Register documentRoutes with a prefix and parseResponseJsonMiddleware to format response data as JSON
+app.use(documentRoutes.routes({ prefix: '/documents' }));
+app.use(parseResponseJsonMiddleware);
+```
+
+### Define and Register Routes
+
+Define and register your routes using the `Router` class (`documentRoutes` in this example):
+
+```javascript
+const Router = require('./lib/router');
+
+const routes = new Router();
+
+// Define your routes using the Router class (documentRoutes)
+routes.get('/', (req, res) => {
+  // Your route logic here
+    // Put response data object 
+    // if you are using parseResponseJsonMiddleware it will be changed to a json format
+    res.body = {};
+});
+
+routes.post('/', (req, res) => {
+  // Your route logic here
+
+  // Content of you body request if you are using parseRequestJsonMiddleware
+  const { body } = req;
+
+});
+```
+
+### Start the Server
+
+Start the server on a specified port (e.g., 3000):
+
+```javascript
+const server = app.start(3000);
+
+server.on('SIGTERM', () => {
+  server.close(() => process.exit(0));
+});
+```
+
+With these steps, you can create a web application using the `WebApp` framework, register middlewares, define routes, and start the server.
+These instructions should help you understand how to use the `WebApp` framework and middlewares in your project, including the usage of `parseRequestJsonMiddleware` and `parseResponseJsonMiddleware`. Customize the routes and middleware to build your web application as required.
+
+
+## Scripts
+
+The following scripts are available for managing and running the project:
+
+- `start`: Start the application by running the main Node.js file.
+  ```bash
+  npm start
+  ```
+
+- `lint`: Lint the source code using ESLint in the `src/` directory.
+  ```bash
+  npm run lint
+  ```
+
+- `lint:fix`: Automatically fix linting issues in the source code using ESLint in the `src/` directory.
+  ```bash
+  npm run lint:fix
+  ```
+
+- `test`: Run tests using Jest.
+  ```bash
+  npm test
+  ```
+
+- `test:watch`: Run tests in watch mode using Jest.
+  ```bash
+  npm run test:watch
+  ```
+
+- `test:coverage`: Run tests with code coverage analysis using Jest.
+  ```bash
+  npm run test:coverage
+  ```
